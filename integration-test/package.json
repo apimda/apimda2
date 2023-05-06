@@ -1,0 +1,16 @@
+{
+  "name": "@apimda/integration-test",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "playground": "ts-node src/playground.ts"
+  },
+  "dependencies": {
+    "@apimda/client": "workspace:*",
+    "@apimda/core": "workspace:*",
+    "@apimda/server": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.114"
+  }
+}

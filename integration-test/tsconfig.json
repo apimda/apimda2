@@ -1,0 +1,19 @@
+{
+  "extends": "../tsconfig.json",
+  "references": [
+    {
+      "path": "../packages/client"
+    },
+    {
+      "path": "../packages/core"
+    },
+    {
+      "path": "../packages/server"
+    }
+  ],
+  "include": ["./src/**/*"],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@apimda/example-hello-world",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
+    "cdk-deploy": "cdk deploy",
+    "cdk-destroy": "cdk destroy"
+  },
+  "dependencies": {
+    "@apimda/client": "workspace:*",
+    "@apimda/core": "workspace:*",
+    "@apimda/server": "workspace:*",
+    "aws-cdk-lib": "^2.78.0",
+    "constructs": "^10.2.17"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.114",
+    "@aws-cdk/aws-apigatewayv2-alpha": "^2.78.0-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.78.0-alpha.0",
+    "aws-cdk": "^2.78.0",
+    "esbuild": "^0.17.18"
+  }
+}

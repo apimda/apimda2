@@ -1,0 +1,11 @@
+{
+  "name": "@apimda/client",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "dependencies": {
+    "@apimda/core": "workspace:*"
+  },
+  "devDependencies": {
+    "undici": "^5.22.0"
+  }
+}
