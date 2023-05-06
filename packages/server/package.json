@@ -2,6 +2,9 @@
   "name": "@apimda/server",
   "version": "0.0.1",
   "main": "dist/index.js",
+  "files": [
+    "/dist"
+  ],
   "dependencies": {
     "@apimda/core": "workspace:*",
     "raw-body": "^2.5.2"
