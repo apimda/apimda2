@@ -2,7 +2,7 @@ export class PathMatcher {
   static parse(path: string) {
     const components = path.split('/');
     const normalizedComponents: string[] = [];
-    const pathVars = [];
+    const pathVars: string[] = [];
     for (const component of components) {
       if (component.startsWith('{') && component.endsWith('}')) {
         pathVars.push(component.substring(1, component.length - 1));

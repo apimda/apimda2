@@ -47,5 +47,8 @@
     "serverless",
     "type safe"
   ],
+  "ts-node": {
+    "esm":true
+  },
   "packageManager": "pnpm@8.4.0"
 }
