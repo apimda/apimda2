@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { describe, expect, test } from '@jest/globals';
 import { IncomingMessage, ServerResponse, createServer } from 'node:http';
 import request from 'supertest';
-import { NodeExtractor } from './node-extractor';
+import { describe, expect, test } from 'vitest';
+import { NodeExtractor } from './node-extractor.js';
 
 const server = createServer(async (request: IncomingMessage, response: ServerResponse) => {
   const url = new URL(request.url!, 'http://${request.headers.host}');

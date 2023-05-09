@@ -1,6 +1,6 @@
 import type { APIGatewayProxyEventV2 as Event } from 'aws-lambda';
-import { HttpError } from '../http-error';
-import { RequestExtractor } from '../server-framework';
+import { HttpError } from '../http-error.js';
+import { RequestExtractor } from '../server-framework.js';
 
 export class LambdaExtractor implements RequestExtractor {
   private cookies?: Map<string, string>;

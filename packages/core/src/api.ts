@@ -19,8 +19,8 @@ import {
   StringOutputDef,
   ZodOutputDef,
   ZodParamDef
-} from './types';
-import { ValidationError, validate } from './validation';
+} from './types.js';
+import { ValidationError, validate } from './validation.js';
 
 const inputDefFactory = {
   bodyBinary(mimeType = 'application/octet-stream') {

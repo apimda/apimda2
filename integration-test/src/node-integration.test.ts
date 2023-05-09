@@ -1,17 +1,17 @@
 import { createFetchClient } from '@apimda/client';
 import { InferControllerClientType } from '@apimda/core';
 import { createRequestListener } from '@apimda/server';
-import { afterAll, beforeAll, beforeEach, expect, test } from '@jest/globals';
 import { Server, createServer } from 'http';
 import { AddressInfo } from 'net';
-import { testControllerDef, testControllerImpl } from './test-controller';
+import { afterAll, beforeAll, beforeEach, expect, test } from 'vitest';
+import { testControllerDef, testControllerImpl } from './test-controller.js';
 
 let server: Server;
 let client: InferControllerClientType<typeof testControllerDef>;
 
-beforeAll(done => {
+beforeAll(() => {
   server = createServer({ keepAliveTimeout: 1 }, createRequestListener(testControllerImpl));
-  server.listen(done);
+  server.listen();
 });
 
 beforeEach(async () => {
@@ -19,8 +19,8 @@ beforeEach(async () => {
   client = createFetchClient(testControllerDef, `http://localhost:${address.port}`);
 });
 
-afterAll(done => {
-  server.close(done);
+afterAll(() => {
+  server.close();
 });
 
 test('bodyArrayExample', async () => {

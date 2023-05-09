@@ -1,4 +1,4 @@
-import { HttpRedirectStatusCode, HttpSuccessStatusCode } from './http-status';
+import { HttpRedirectStatusCode, HttpSuccessStatusCode } from './http-status.js';
 
 export class ApimdaResult<T> {
   readonly result: T;

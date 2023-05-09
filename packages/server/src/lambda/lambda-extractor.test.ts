@@ -1,5 +1,5 @@
-import { describe, expect, test } from '@jest/globals';
-import { LambdaExtractor } from './lambda-extractor';
+import { describe, expect, test } from 'vitest';
+import { LambdaExtractor } from './lambda-extractor.js';
 
 const sampleEvent = {
   version: '2.0',

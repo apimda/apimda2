@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AnyOperation, AnyOutputType, AnyParamDef, BodyBinaryParamDef, BodyTextParamDef } from '@apimda/core';
 import { ZodError } from 'zod';
-import { ApimdaResult } from './apimda-result';
-import { HttpError } from './http-error';
+import { ApimdaResult } from './apimda-result.js';
+import { HttpError } from './http-error.js';
 
 export type ServerParamValueType = 'string' | 'number' | 'boolean' | 'object' | 'Buffer';
 

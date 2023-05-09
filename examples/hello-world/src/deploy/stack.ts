@@ -7,7 +7,7 @@ import * as lambdaNode from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cdkLogs from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
 import path from 'node:path';
-import { helloController } from '../definition';
+import { helloController } from '../definition.js';
 
 export class HelloWorldStack extends cdk.Stack {
   public apiUrl: cdk.CfnOutput;

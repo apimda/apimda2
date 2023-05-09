@@ -6,13 +6,12 @@
     "incremental": true,
     "lib": ["ES2022"],
     "module": "ES2022",
+    "moduleResolution": "nodenext",
     "target": "ES2022",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "forceConsistentCasingInFileNames": true
   },
   "files": [],
   "exclude": ["**/*.config.ts"],
@@ -29,5 +28,8 @@
     {
       "path": "./integration-test"
     }
-  ]
+  ],
+  "ts-node": {
+    "esm": true
+  }
 }

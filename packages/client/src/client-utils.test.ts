@@ -1,5 +1,5 @@
-import { describe, expect, test } from '@jest/globals';
-import { buildHeaders, buildPath, buildQuery, buildUrl, encodeCookies, paramStringValue } from './client-utils';
+import { describe, expect, test } from 'vitest';
+import { buildHeaders, buildPath, buildQuery, buildUrl, encodeCookies, paramStringValue } from './client-utils.js';
 
 describe('buildPath', () => {
   test('no template vars', () => {

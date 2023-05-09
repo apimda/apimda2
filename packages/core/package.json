@@ -7,5 +7,8 @@
     "/dist"
   ],
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {},
+  "scripts": {
+    "build": "tsc --build"
+  }
 }

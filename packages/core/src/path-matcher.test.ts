@@ -1,5 +1,5 @@
-import { describe, expect, test } from '@jest/globals';
-import { PathMatcher } from './path-matcher';
+import { describe, expect, test } from 'vitest';
+import { PathMatcher } from './path-matcher.js';
 
 const m = (rec: Record<string, string>) => new Map(Object.entries(rec));
 

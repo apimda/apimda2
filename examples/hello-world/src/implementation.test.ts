@@ -1,5 +1,5 @@
-import { expect, test } from '@jest/globals';
-import { helloImpl } from './implementation';
+import { expect, test } from 'vitest';
+import { helloImpl } from './implementation.js';
 
 test('default message', async () => {
   expect(await helloImpl.testClient().hello({ message: undefined })).toEqual('Hello world');

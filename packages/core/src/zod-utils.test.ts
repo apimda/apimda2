@@ -1,6 +1,6 @@
-import { describe, expect, test } from '@jest/globals';
+import { describe, expect, test } from 'vitest';
 import { ZodBoolean, ZodFirstPartyTypeKind, ZodObject, ZodString, z } from 'zod';
-import { fullyUnwrap, preParseString } from './zod-utils';
+import { fullyUnwrap, preParseString } from './zod-utils.js';
 
 describe('fullyUnwrap', () => {
   test('z.string().optional()', () => {

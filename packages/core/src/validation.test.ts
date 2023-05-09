@@ -1,7 +1,7 @@
-import { describe, expect, test } from '@jest/globals';
+import { describe, expect, test } from 'vitest';
 import { z } from 'zod';
-import { a } from './api';
-import { ValidationError, ViolationCode } from './validation';
+import { a } from './api.js';
+import { ValidationError, ViolationCode } from './validation.js';
 
 describe('validation', () => {
   test('DUPLICATE_METHOD_PATH', () => {

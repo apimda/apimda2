@@ -1,8 +1,8 @@
 import { a } from '@apimda/core';
-import { describe, expect, test } from '@jest/globals';
 import { createServer } from 'http';
 import request from 'supertest';
-import { createRequestListener } from './node-runtime';
+import { describe, expect, test } from 'vitest';
+import { createRequestListener } from './node-runtime.js';
 
 const greeting = { greeting: 'Hi!' };
 

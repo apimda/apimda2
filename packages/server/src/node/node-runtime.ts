@@ -1,9 +1,9 @@
 import { ControllerImpl } from '@apimda/core';
 import { IncomingMessage, ServerResponse } from 'node:http';
-import { HttpErrorStatusCode, statusCodeToDesc } from '../http-status';
-import { ContextHolder, ServerOperation, ServerResult } from '../server-framework';
-import { NodeExtractor } from './node-extractor';
-import { RouteMatcher } from './route-matcher';
+import { HttpErrorStatusCode, statusCodeToDesc } from '../http-status.js';
+import { ContextHolder, ServerOperation, ServerResult } from '../server-framework.js';
+import { NodeExtractor } from './node-extractor.js';
+import { RouteMatcher } from './route-matcher.js';
 
 const sendErrorResponse = (response: ServerResponse, statusCode: HttpErrorStatusCode) => {
   response.writeHead(statusCode, { 'content-type': 'text/plain' });
