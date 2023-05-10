@@ -4,5 +4,10 @@
     {
       "path": "../core"
     }
-  ]
+  ],
+  "include": ["./src/**/*"],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  }
 }

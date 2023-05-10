@@ -1,4 +1,4 @@
-import { HttpErrorStatusCode, statusCodeToDesc } from './http-status';
+import { HttpErrorStatusCode, statusCodeToDesc } from './http-status.js';
 
 export class HttpError extends Error {
   statusCode: number;

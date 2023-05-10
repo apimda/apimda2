@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AnyOperationDef, BinaryOutputDef, ControllerDef, InferControllerClientType } from '@apimda/core';
-import { buildHeaders, buildUrl, paramsByLocation } from './client-utils';
+import { buildHeaders, buildUrl, paramsByLocation } from './client-utils.js';
 
 // eslint-disable-next-line no-var
 declare var fetch: typeof import('undici').fetch;

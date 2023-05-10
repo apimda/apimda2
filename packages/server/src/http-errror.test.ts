@@ -1,7 +1,7 @@
-import { describe, expect, test } from '@jest/globals';
+import { describe, expect, test } from 'vitest';
 
-import { HttpError } from './http-error';
-import { statusCodeToDesc } from './http-status';
+import { HttpError } from './http-error.js';
+import { statusCodeToDesc } from './http-status.js';
 
 describe('HTTP error tests', () => {
   test('top level app', () => {

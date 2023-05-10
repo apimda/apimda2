@@ -1,7 +1,7 @@
 import { a } from '@apimda/core';
-import { describe, expect, test } from '@jest/globals';
 import type { APIGatewayProxyEventV2 as Event } from 'aws-lambda';
-import { createAwsLambdaHandler, toLambdaCookies, toLambdaResult } from './lambda-runtime';
+import { describe, expect, test } from 'vitest';
+import { createAwsLambdaHandler, toLambdaCookies, toLambdaResult } from './lambda-runtime.js';
 
 describe('toLambdaCookies tests', () => {
   test('empty cookies', () => {

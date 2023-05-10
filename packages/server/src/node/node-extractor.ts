@@ -2,8 +2,8 @@ import { IncomingMessage } from 'node:http';
 import { Readable } from 'node:stream';
 import { createGunzip, createInflate } from 'node:zlib';
 import getRawBody from 'raw-body';
-import { HttpError } from '../http-error';
-import { RequestExtractor } from '../server-framework';
+import { HttpError } from '../http-error.js';
+import { RequestExtractor } from '../server-framework.js';
 
 const getBody = async (request: IncomingMessage) => {
   let bodyStream: Readable = request;

@@ -1,9 +1,16 @@
 import { ControllerImpl } from '@apimda/core';
 import { IncomingMessage, ServerResponse } from 'node:http';
-import { HttpErrorStatusCode, statusCodeToDesc } from '../http-status';
-import { ContextHolder, ServerOperation, ServerResult } from '../server-framework';
-import { NodeExtractor } from './node-extractor';
-import { RouteMatcher } from './route-matcher';
+import { HttpErrorStatusCode, statusCodeToDesc } from '../http-status.js';
+import { ContextHolder, ServerOperation, ServerResult } from '../server-framework.js';
+import { NodeExtractor } from './node-extractor.js';
+import { RouteMatcher } from './route-matcher.js';
+
+export const enableCorsHeaders = { 'Access-Control-Allow-Origin': '*' };
+
+const sendOptionsResponse = (response: ServerResponse, defaultHeaders: Record<string, string>) => {
+  response.writeHead(204, defaultHeaders);
+  response.end();
+};
 
 const sendErrorResponse = (response: ServerResponse, statusCode: HttpErrorStatusCode) => {
   response.writeHead(statusCode, { 'content-type': 'text/plain' });
@@ -11,8 +18,8 @@ const sendErrorResponse = (response: ServerResponse, statusCode: HttpErrorStatus
   response.end();
 };
 
-const sendResultResponse = (response: ServerResponse, result: ServerResult) => {
-  const outgoingHeaders: Record<string, string | string[]> = {};
+const sendResultResponse = (response: ServerResponse, result: ServerResult, defaultHeaders: Record<string, string>) => {
+  const outgoingHeaders: Record<string, string | string[]> = defaultHeaders;
   for (const headerName in result.headers) {
     outgoingHeaders[headerName] = result.headers[headerName as Lowercase<string>].toString();
   }
@@ -32,7 +39,11 @@ const sendResultResponse = (response: ServerResponse, result: ServerResult) => {
   response.end();
 };
 
-export const createRequestListener = (...controllers: ControllerImpl[]) => {
+export const createRequestListener = (
+  config: { headers?: Record<string, string> },
+  ...controllers: ControllerImpl[]
+) => {
+  const defaultHeaders = config.headers ?? {};
   const routeMatcher = new RouteMatcher<ServerOperation>();
   for (const controller of controllers) {
     const contextHolder = new ContextHolder(controller.createContext);
@@ -48,6 +59,10 @@ export const createRequestListener = (...controllers: ControllerImpl[]) => {
         sendErrorResponse(response, 404);
         return;
       }
+      if (request.method === 'OPTIONS') {
+        sendOptionsResponse(response, defaultHeaders);
+        return;
+      }
       const url = new URL(request.url, 'http://${request.headers.host}');
       const routePath = `${request.method?.toLowerCase() ?? ''}/${url.pathname}`;
       const routeMatch = routeMatcher.match(routePath);
@@ -58,7 +73,7 @@ export const createRequestListener = (...controllers: ControllerImpl[]) => {
       const extractor = await NodeExtractor.create(request, url, routeMatch.pathParameters);
       const operation = routeMatch.value;
       const result = await operation.execute(extractor);
-      sendResultResponse(response, result);
+      sendResultResponse(response, result, defaultHeaders);
     } catch (e) {
       sendErrorResponse(response, 500);
     }

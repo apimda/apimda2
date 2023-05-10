@@ -10,5 +10,13 @@
     {
       "path": "../packages/server"
     }
-  ]
+  ],
+  "include": ["./src/**/*"],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "ts-node": {
+    "esm": true
+  }
 }

@@ -1,8 +1,8 @@
 import { a } from '@apimda/core';
-import { describe, expect, test } from '@jest/globals';
 import { createServer } from 'http';
 import request from 'supertest';
-import { createRequestListener } from './node-runtime';
+import { describe, expect, test } from 'vitest';
+import { createRequestListener } from './node-runtime.js';
 
 const greeting = { greeting: 'Hi!' };
 
@@ -12,7 +12,7 @@ const def = a.controller('/greeter').define({
 
 const impl = a.implement(def).as({ hello: async () => greeting });
 
-const server = createServer(createRequestListener(impl));
+const server = createServer(createRequestListener({}, impl));
 
 describe('createRequestListener tests', () => {
   test('missing route', async () => {

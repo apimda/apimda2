@@ -1,7 +1,7 @@
 import { ControllerImpl } from '@apimda/core';
 import type { APIGatewayProxyEventV2 as Event, APIGatewayProxyStructuredResultV2 as Result } from 'aws-lambda';
-import { ContextHolder, ServerOperation, ServerResult } from '../server-framework';
-import { LambdaExtractor } from './lambda-extractor';
+import { ContextHolder, ServerOperation, ServerResult } from '../server-framework.js';
+import { LambdaExtractor } from './lambda-extractor.js';
 
 export const toLambdaCookies = (cookies?: Record<string, string | number | boolean>): string[] | undefined => {
   if (!cookies) {

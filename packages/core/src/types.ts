@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ZodSchema, z } from 'zod';
-import { ZodSerializer } from './zod-utils';
+import { ZodSerializer } from './zod-utils.js';
 
 // -----
 // Utils

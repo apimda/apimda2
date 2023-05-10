@@ -1,6 +1,6 @@
 import { ZodFirstPartyTypeKind, ZodSchema } from 'zod';
-import { PathMatcher } from './path-matcher';
-import { AnyInputDef, AnyParamDef, ControllerDef, ZodParamDef } from './types';
+import { PathMatcher } from './path-matcher.js';
+import { AnyInputDef, AnyParamDef, ControllerDef, ZodParamDef } from './types.js';
 
 export enum ViolationCode {
   DUPLICATE_METHOD_PATH,

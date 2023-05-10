@@ -72,8 +72,8 @@ type opType3 = InferControllerClientType<typeof definition>;
 //   ^?
 
 console.log(`Starting HTTP server...`);
-const listener = createRequestListener(implementation);
-const server = createServer(listener);
+const listener = createRequestListener({}, implementation);
+const server = createServer({ keepAliveTimeout: 1 }, listener);
 const port = 8080;
 server.listen(port);
 console.log(`Started HTTP server on port ${port}`);
