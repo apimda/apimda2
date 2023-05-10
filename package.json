@@ -44,5 +44,5 @@
     "serverless",
     "type safe"
   ],
-  "packageManager": "pnpm@8.4.0"
+  "packageManager": "pnpm@8.5.0"
 }
