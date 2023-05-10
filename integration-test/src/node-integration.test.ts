@@ -10,7 +10,7 @@ let server: Server;
 let client: InferControllerClientType<typeof testControllerDef>;
 
 beforeAll(() => {
-  server = createServer({ keepAliveTimeout: 1 }, createRequestListener(testControllerImpl));
+  server = createServer({ keepAliveTimeout: 1 }, createRequestListener({}, testControllerImpl));
   server.listen();
 });
 
