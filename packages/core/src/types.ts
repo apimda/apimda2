@@ -138,13 +138,11 @@ export interface OperationDef<TInputDef, TOutputDef> {
 
 export type AnyOperationDef = OperationDef<AnyInputDef, AnyOutputDef>;
 
-export type InferOperationFunctionType<TOperationDef, TBinary, TContext = unknown> = TOperationDef extends OperationDef<
+export type InferOperationFunctionType<TOperationDef, TBinary> = TOperationDef extends OperationDef<
   infer TInputDef,
   infer TOutputDef
 >
-  ? unknown extends TContext
-    ? (input: InferInputType<TInputDef, TBinary>) => Promise<InferOutputType<TOutputDef, TBinary>>
-    : (input: InferInputType<TInputDef, TBinary>, context: TContext) => Promise<InferOutputType<TOutputDef, TBinary>>
+  ? (input: InferInputType<TInputDef, TBinary>) => Promise<InferOutputType<TOutputDef, TBinary>>
   : never;
 
 // -----------
@@ -153,28 +151,16 @@ export type InferOperationFunctionType<TOperationDef, TBinary, TContext = unknow
 
 export type ControllerDef = Record<string, AnyOperationDef>;
 
-// --------------
-// Implementation
-// --------------
-
-interface Operation<TOperationDef> {
-  def: TOperationDef;
-  impl: Function;
-}
-
-export type AnyOperation = Operation<AnyOperationDef>;
-
-export type ControllerOperations = Record<string, AnyOperation>;
-
-export type ControllerImpl = {
-  operations: ControllerOperations;
-  createContext?: () => Promise<any>;
+export type ControllerImpl<TDefinition extends ControllerDef> = {
+  definition: TDefinition;
+  implementation: InferControllerImplType<TDefinition>;
 };
 
-export type InferControllerImplType<TDef, TContext> = TDef extends ControllerDef
-  ? { [TKey in keyof TDef]: InferOperationFunctionType<TDef[TKey], Buffer, TContext> }
+export type AnyControllerImpl = ControllerImpl<ControllerDef>;
+
+type InferControllerOperationsType<TDef, TBinary> = TDef extends ControllerDef
+  ? { [TKey in keyof TDef]: InferOperationFunctionType<TDef[TKey], TBinary> }
   : never;
 
-export type InferControllerClientType<T> = T extends ControllerDef
-  ? { [TKey in keyof T]: InferOperationFunctionType<T[TKey], Blob> }
-  : never;
+export type InferControllerImplType<T> = InferControllerOperationsType<T, Buffer>;
+export type InferControllerClientType<T> = InferControllerOperationsType<T, Blob>;

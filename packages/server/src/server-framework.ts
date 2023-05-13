@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyOperation, AnyOutputType, AnyParamDef, BodyBinaryParamDef, BodyTextParamDef } from '@apimda/core';
+import { AnyOperationDef, AnyOutputType, AnyParamDef, BodyBinaryParamDef, BodyTextParamDef } from '@apimda/core';
 import { ZodError } from 'zod';
 import { ApimdaResult } from './apimda-result.js';
 import { HttpError } from './http-error.js';
@@ -20,21 +21,6 @@ export interface RequestExtractor {
   header(name: string): string | undefined;
   query(name: string): string | undefined;
   path(name: string): string | undefined;
-}
-
-export class ContextHolder {
-  private context: any = undefined;
-  private initialized: boolean;
-  constructor(private createContext?: () => Promise<any>) {
-    this.initialized = createContext === undefined;
-  }
-  async getContext() {
-    if (!this.initialized && this.createContext) {
-      this.context = await this.createContext();
-      this.initialized = true;
-    }
-    return this.context;
-  }
 }
 
 class ServerParam {
@@ -87,17 +73,16 @@ class ServerParam {
 export class ServerOperation {
   public readonly params: ServerParam[];
 
-  constructor(public readonly operation: AnyOperation, public readonly contextHolder: ContextHolder) {
-    this.params = Object.entries(operation.def.inputDef).map(
+  constructor(public readonly operation: AnyOperationDef, public readonly impl: Function) {
+    this.params = Object.entries(operation.inputDef).map(
       ([propertyName, param]) => new ServerParam(param, propertyName)
     );
   }
 
   async execute(extractor: RequestExtractor) {
     try {
-      const context = await this.contextHolder.getContext();
       const input = Object.fromEntries(this.params.map(p => [p.propertyName, p.value(extractor)]));
-      const output = await this.operation.impl(input, context);
+      const output = await this.impl(input);
       return this.createSuccessResult(output);
     } catch (e) {
       if (e instanceof HttpError) {
@@ -117,8 +102,8 @@ export class ServerOperation {
   }
 
   private defaultContentType(result: AnyOutputType) {
-    if (this.operation.def.outputDef?.mimeType) {
-      return this.operation.def.outputDef.mimeType;
+    if (this.operation.outputDef?.mimeType) {
+      return this.operation.outputDef.mimeType;
     } else if (Buffer.isBuffer(result)) {
       return 'application/octet-stream';
     } else if (typeof result === 'string') {
