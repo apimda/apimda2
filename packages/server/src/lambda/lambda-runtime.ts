@@ -1,6 +1,6 @@
-import { ControllerImpl } from '@apimda/core';
+import { AnyControllerImpl } from '@apimda/core';
 import type { APIGatewayProxyEventV2 as Event, APIGatewayProxyStructuredResultV2 as Result } from 'aws-lambda';
-import { ContextHolder, ServerOperation, ServerResult } from '../server-framework.js';
+import { ServerOperation, ServerResult } from '../server-framework.js';
 import { LambdaExtractor } from './lambda-extractor.js';
 
 export const toLambdaCookies = (cookies?: Record<string, string | number | boolean>): string[] | undefined => {
@@ -25,14 +25,14 @@ export const toLambdaResult = (result: ServerResult): Result => {
   };
 };
 
-export function createAwsLambdaHandler(...controllers: ControllerImpl[]) {
+export async function createAwsLambdaHandler(...controllers: AnyControllerImpl[]) {
   const operationsByPath: Record<string, ServerOperation> = {};
   for (const controller of controllers) {
-    const contextHolder = new ContextHolder(controller.createContext);
-    Object.values(controller.operations).forEach(operation => {
-      const routePath = `${operation.def.method.toUpperCase()} ${operation.def.path}`;
-      operationsByPath[routePath] = new ServerOperation(operation, contextHolder);
-    });
+    for (const operationName in controller.definition) {
+      const operation = controller.definition[operationName];
+      const routePath = `${operation.method.toUpperCase()} ${operation.path}`;
+      operationsByPath[routePath] = new ServerOperation(operation, controller.implementation[operationName]);
+    }
   }
 
   return async (event: Event) => {

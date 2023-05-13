@@ -10,9 +10,9 @@ const def = a.controller('/greeter').define({
   hello: a.op.get('/hello').output(a.out.object()).build()
 });
 
-const impl = a.implement(def).as({ hello: async () => greeting });
-
-const server = createServer(createRequestListener({}, impl));
+const impl = a.implement(def, { hello: async () => greeting });
+const listener = createRequestListener({}, impl);
+const server = createServer(listener);
 
 describe('createRequestListener tests', () => {
   test('missing route', async () => {

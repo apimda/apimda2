@@ -66,15 +66,15 @@ const def1 = a.controller('/greeter').define({
   hello: a.op.get('/hello').output(a.out.object()).build()
 });
 
-const impl1 = a.implement(def1).as({ hello: async () => greeting });
+const impl1 = a.implement(def1, { hello: async () => greeting });
 
 const def2 = a.controller('/boo').define({
   yeah: a.op.get('/yo').output(a.out.text()).build()
 });
 
-const impl2 = a.implement(def2).as({ yeah: async () => 'hell yeah' });
+const impl2 = a.implement(def2, { yeah: async () => 'hell yeah' });
 
-const handler = createAwsLambdaHandler(impl1, impl2);
+const handler = await createAwsLambdaHandler(impl1, impl2);
 
 describe('createAwsLambdaHandler tests', () => {
   test('missing route', async () => {
@@ -87,7 +87,7 @@ describe('createAwsLambdaHandler tests', () => {
     });
   });
 
-  test('createAwsLambdaHandler w/out context', async () => {
+  test('createAwsLambdaHandler', async () => {
     const event = { routeKey: 'GET /greeter/hello' };
     const result = await handler(event as Event);
     expect(result).toEqual({

@@ -3,15 +3,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from 'zod';
 import {
+  AnyControllerImpl,
   AnyInputDef,
-  AnyOperationDef,
   AnyOutputDef,
   BinaryOutputDef,
   BodyBinaryParamDef,
   BodyTextParamDef,
   ControllerDef,
-  ControllerOperations,
-  InferControllerClientType,
   InferControllerImplType,
   JsonOutputDef,
   OperationDef,
@@ -126,31 +124,13 @@ function controller(basePath = '/') {
   };
 }
 
-function implement<TDef, TContext = unknown>(definition: TDef, createContext?: () => Promise<TContext>) {
+function implement<TDefinition extends ControllerDef>(
+  definition: TDefinition,
+  implementation: InferControllerImplType<TDefinition>
+): AnyControllerImpl {
   return {
-    as(impl: InferControllerImplType<typeof definition, TContext>) {
-      const operations: ControllerOperations = {};
-      for (const opName in definition) {
-        operations[opName] = {
-          def: definition[opName] as AnyOperationDef,
-          impl: impl[opName]
-        };
-      }
-      return {
-        operations,
-        createContext,
-        testClient(context?: TContext) {
-          // TODO testClient should probably be moved into server package to take advantage of all of the validation
-          const testClient: Record<string, Function> = {};
-          for (const opName in definition) {
-            testClient[opName] = (input: any) => {
-              return operations[opName].impl(input, context);
-            };
-          }
-          return testClient as InferControllerClientType<typeof definition>;
-        }
-      };
-    }
+    definition,
+    implementation
   };
 }
 

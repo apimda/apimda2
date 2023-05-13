@@ -1,7 +1,7 @@
-import { ControllerImpl } from '@apimda/core';
+import { AnyControllerImpl } from '@apimda/core';
 import { IncomingMessage, ServerResponse } from 'node:http';
 import { HttpErrorStatusCode, statusCodeToDesc } from '../http-status.js';
-import { ContextHolder, ServerOperation, ServerResult } from '../server-framework.js';
+import { ServerOperation, ServerResult } from '../server-framework.js';
 import { NodeExtractor } from './node-extractor.js';
 import { RouteMatcher } from './route-matcher.js';
 
@@ -41,16 +41,16 @@ const sendResultResponse = (response: ServerResponse, result: ServerResult, defa
 
 export const createRequestListener = (
   config: { headers?: Record<string, string> },
-  ...controllers: ControllerImpl[]
+  ...controllers: AnyControllerImpl[]
 ) => {
   const defaultHeaders = config.headers ?? {};
   const routeMatcher = new RouteMatcher<ServerOperation>();
   for (const controller of controllers) {
-    const contextHolder = new ContextHolder(controller.createContext);
-    Object.values(controller.operations).forEach(operation => {
-      const routePath = `${operation.def.method}/${operation.def.path}`;
-      routeMatcher.add(routePath, new ServerOperation(operation, contextHolder));
-    });
+    for (const operationName in controller.definition) {
+      const operation = controller.definition[operationName];
+      const routePath = `${operation.method}/${operation.path}`;
+      routeMatcher.add(routePath, new ServerOperation(operation, controller.implementation[operationName]));
+    }
   }
 
   return async (request: IncomingMessage, response: ServerResponse) => {

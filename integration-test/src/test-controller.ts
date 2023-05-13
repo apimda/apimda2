@@ -115,7 +115,7 @@ export const testControllerDef = a.controller('/base').define({
     .build()
 });
 
-export const testControllerImpl = a.implement(testControllerDef).as({
+export const testControllerImpl = a.implement(testControllerDef, {
   bodyArrayExample: async input => input.body,
   bodyBinaryExample: async input => input.body,
   bodyObjectExample: async input => input.body,

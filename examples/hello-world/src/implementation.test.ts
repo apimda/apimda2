@@ -2,9 +2,9 @@ import { expect, test } from 'vitest';
 import { helloImpl } from './implementation.js';
 
 test('default message', async () => {
-  expect(await helloImpl.testClient().hello({ message: undefined })).toEqual('Hello world');
+  expect(await helloImpl.implementation.hello({ message: undefined })).toEqual('Hello world');
 });
 
 test('specific message', async () => {
-  expect(await helloImpl.testClient().hello({ message: 'Joe!' })).toEqual('Hello Joe!');
+  expect(await helloImpl.implementation.hello({ message: 'Joe!' })).toEqual('Hello Joe!');
 });
