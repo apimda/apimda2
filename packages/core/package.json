@@ -1,14 +1,14 @@
 {
   "name": "@apimda/core",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "main": "dist/index.js",
   "files": [
     "/dist"
   ],
-  "dependencies": {},
-  "devDependencies": {},
   "scripts": {
     "build": "tsc --build"
-  }
+  },
+  "dependencies": {},
+  "devDependencies": {}
 }

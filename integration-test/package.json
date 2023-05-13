@@ -1,8 +1,7 @@
 {
-  "name": "@apimda/integration-test",
   "private": true,
+  "name": "@apimda/integration-test",
   "type": "module",
-  "version": "0.0.2",
   "scripts": {
     "playground": "ts-node src/playground.ts"
   },
