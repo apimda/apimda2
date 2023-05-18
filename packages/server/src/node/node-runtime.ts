@@ -49,7 +49,7 @@ export const createRequestListener = (
     for (const operationName in controller.definition) {
       const operation = controller.definition[operationName];
       const routePath = `${operation.method}/${operation.path}`;
-      routeMatcher.add(routePath, new ServerOperation(operation, controller.implementation[operationName]));
+      routeMatcher.add(routePath, new ServerOperation(operation, operationName, controller.implementation));
     }
   }
 

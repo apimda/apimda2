@@ -73,8 +73,12 @@ class ServerParam {
 export class ServerOperation {
   public readonly params: ServerParam[];
 
-  constructor(public readonly operation: AnyOperationDef, public readonly impl: Function) {
-    this.params = Object.entries(operation.inputDef).map(
+  constructor(
+    public readonly operationDef: AnyOperationDef,
+    public readonly operationName: string,
+    public readonly implementation: any
+  ) {
+    this.params = Object.entries(operationDef.inputDef).map(
       ([propertyName, param]) => new ServerParam(param, propertyName)
     );
   }
@@ -82,12 +86,13 @@ export class ServerOperation {
   async execute(extractor: RequestExtractor) {
     try {
       const input = Object.fromEntries(this.params.map(p => [p.propertyName, p.value(extractor)]));
-      const output = await this.impl(input);
+      const output = await this.implementation[this.operationName](input);
       return this.createSuccessResult(output);
     } catch (e) {
       if (e instanceof HttpError) {
         return this.createErrorResult(e);
       } else {
+        console.error(e);
         throw e;
       }
     }
@@ -102,8 +107,8 @@ export class ServerOperation {
   }
 
   private defaultContentType(result: AnyOutputType) {
-    if (this.operation.outputDef?.mimeType) {
-      return this.operation.outputDef.mimeType;
+    if (this.operationDef.outputDef?.mimeType) {
+      return this.operationDef.outputDef.mimeType;
     } else if (Buffer.isBuffer(result)) {
       return 'application/octet-stream';
     } else if (typeof result === 'string') {

@@ -1,4 +1,5 @@
-import { a } from '@apimda/core';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { InferControllerImplType, a } from '@apimda/core';
 import { z } from 'zod';
 
 export const testControllerDef = a.controller('/base').define({
@@ -125,3 +126,20 @@ export const testControllerImpl = a.implement(testControllerDef, {
   pathExample: async input => input,
   queryExample: async input => input
 });
+
+export const objControllerDef = a.controller('/obj').define({
+  testBind: a.op.post('/context').output(a.out.text()).build()
+});
+
+class ObjController implements InferControllerImplType<typeof objControllerDef> {
+  constructor(public prop = 'context') {}
+  private privMethod() {
+    return this.prop;
+  }
+  async testBind(input = {}): Promise<string> {
+    console.log(this);
+    return this.privMethod();
+  }
+}
+
+export const objControllerImpl = a.implement(objControllerDef, new ObjController());
