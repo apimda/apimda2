@@ -31,7 +31,7 @@ export function createAwsLambdaHandler(...controllers: AnyControllerImpl[]) {
     for (const operationName in controller.definition) {
       const operation = controller.definition[operationName];
       const routePath = `${operation.method.toUpperCase()} ${operation.path}`;
-      operationsByPath[routePath] = new ServerOperation(operation, controller.implementation[operationName]);
+      operationsByPath[routePath] = new ServerOperation(operation, operationName, controller.implementation);
     }
   }
 

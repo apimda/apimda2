@@ -4,24 +4,31 @@ import { createRequestListener } from '@apimda/server';
 import { Server, createServer } from 'http';
 import { AddressInfo } from 'net';
 import { afterAll, beforeAll, beforeEach, expect, test } from 'vitest';
-import { testControllerDef, testControllerImpl } from './test-controller.js';
+import { objControllerDef, objControllerImpl, testControllerDef, testControllerImpl } from './test-controller.js';
 
 let server: Server;
+let endpoint: string;
 let client: InferControllerClientType<typeof testControllerDef>;
 
 beforeAll(async () => {
-  const listener = await createRequestListener({}, testControllerImpl);
+  const listener = createRequestListener({}, testControllerImpl, objControllerImpl);
   server = createServer({ keepAliveTimeout: 1 }, listener);
   server.listen();
 });
 
 beforeEach(async () => {
   const address = server.address() as AddressInfo;
-  client = createFetchClient(testControllerDef, `http://localhost:${address.port}`);
+  endpoint = `http://localhost:${address.port}`;
+  client = createFetchClient(testControllerDef, endpoint);
 });
 
 afterAll(() => {
   server.close();
+});
+
+test('ObjController.bindContext', async () => {
+  const objClient = createFetchClient(objControllerDef, endpoint);
+  expect(await objClient.testBind({})).toEqual('context');
 });
 
 test('bodyArrayExample', async () => {
