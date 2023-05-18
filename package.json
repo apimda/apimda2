@@ -46,7 +46,9 @@
     "type safe"
   ],
   "lint-staged": {
-    "*": "pnpm run format && pnpm run lint"
+    "*": "prettier --write --ignore-unknown",
+    "package.json": "prettier-package-json --write",
+    "*.ts": "eslint"
   },
   "packageManager": "pnpm@8.5.0"
 }

@@ -74,7 +74,7 @@ const def2 = a.controller('/boo').define({
 
 const impl2 = a.implement(def2, { yeah: async () => 'hell yeah' });
 
-const handler = await createAwsLambdaHandler(impl1, impl2);
+const handler = createAwsLambdaHandler(impl1, impl2);
 
 describe('createAwsLambdaHandler tests', () => {
   test('missing route', async () => {

@@ -25,7 +25,7 @@ export const toLambdaResult = (result: ServerResult): Result => {
   };
 };
 
-export async function createAwsLambdaHandler(...controllers: AnyControllerImpl[]) {
+export function createAwsLambdaHandler(...controllers: AnyControllerImpl[]) {
   const operationsByPath: Record<string, ServerOperation> = {};
   for (const controller of controllers) {
     for (const operationName in controller.definition) {
