@@ -3,10 +3,6 @@ lockfileVersion: '6.0'
 importers:
 
   .:
-    dependencies:
-      zod:
-        specifier: ^3.21.4
-        version: 3.21.4
     devDependencies:
       '@types/node':
         specifier: ^18.16.5
@@ -71,6 +67,9 @@ importers:
       constructs:
         specifier: ^10.2.17
         version: 10.2.17
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
     devDependencies:
       '@aws-cdk/aws-apigatewayv2-alpha':
         specifier: ^2.78.0-alpha.0
@@ -99,6 +98,9 @@ importers:
       '@apimda/server':
         specifier: workspace:*
         version: link:../packages/server
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.114
@@ -109,12 +111,12 @@ importers:
       '@apimda/core':
         specifier: workspace:*
         version: link:../core
-    devDependencies:
-      undici:
-        specifier: ^5.22.0
-        version: 5.22.0
 
-  packages/core: {}
+  packages/core:
+    dependencies:
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
 
   packages/server:
     dependencies:
@@ -124,6 +126,9 @@ importers:
       raw-body:
         specifier: ^2.5.2
         version: 2.5.2
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.114

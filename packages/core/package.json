@@ -1,6 +1,6 @@
 {
   "name": "@apimda/core",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "main": "dist/index.js",
   "files": [
@@ -9,6 +9,7 @@
   "scripts": {
     "build": "tsc --build"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "zod": "^3.21.4"
+  }
 }
