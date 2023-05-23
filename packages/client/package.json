@@ -1,6 +1,6 @@
 {
   "name": "@apimda/client",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "main": "dist/index.js",
   "files": [
@@ -8,8 +8,5 @@
   ],
   "dependencies": {
     "@apimda/core": "workspace:*"
-  },
-  "devDependencies": {
-    "undici": "^5.22.0"
   }
 }

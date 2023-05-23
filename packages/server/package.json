@@ -1,6 +1,6 @@
 {
   "name": "@apimda/server",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "main": "dist/index.js",
   "files": [
@@ -8,7 +8,8 @@
   ],
   "dependencies": {
     "@apimda/core": "workspace:*",
-    "raw-body": "^2.5.2"
+    "raw-body": "^2.5.2",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.114",

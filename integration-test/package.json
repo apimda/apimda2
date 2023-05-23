@@ -8,7 +8,8 @@
   "dependencies": {
     "@apimda/client": "workspace:*",
     "@apimda/core": "workspace:*",
-    "@apimda/server": "workspace:*"
+    "@apimda/server": "workspace:*",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.114"

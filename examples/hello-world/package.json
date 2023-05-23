@@ -13,7 +13,8 @@
     "@apimda/core": "workspace:*",
     "@apimda/server": "workspace:*",
     "aws-cdk-lib": "^2.78.0",
-    "constructs": "^10.2.17"
+    "constructs": "^10.2.17",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@aws-cdk/aws-apigatewayv2-alpha": "^2.78.0-alpha.0",
