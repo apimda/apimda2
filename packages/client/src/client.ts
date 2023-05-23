@@ -12,7 +12,7 @@ export interface ClientRequest {
   body: string | Blob | undefined;
 }
 
-export type ClientRequestInterceptor = (request: ClientRequest) => ClientRequest;
+export type ClientRequestInterceptor = (request: ClientRequest) => Promise<ClientRequest>;
 
 export class ClientHttpError extends Error {
   constructor(public status: number, public message: string) {
@@ -39,7 +39,7 @@ export class ClientFetchOperation {
 
   async execute(input: Record<string, any>) {
     const initialRequest = this.buildRequest(input);
-    const request = this.interceptor ? this.interceptor(initialRequest) : initialRequest;
+    const request = this.interceptor ? await this.interceptor(initialRequest) : initialRequest;
     const response = await fetch(request.url, { method: request.method, headers: request.headers, body: request.body });
     if (response.ok) {
       const outDef = this.operationDef.outputDef;
