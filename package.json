@@ -1,7 +1,6 @@
 {
   "private": true,
   "name": "@apimda/apimda2",
-  "version": "0.0.5",
   "scripts": {
     "build": "tsc --build && pnpm run -r build",
     "cdk-deploy": "pnpm run build && pnpm --filter @apimda/example-hello-world run cdk-deploy",
