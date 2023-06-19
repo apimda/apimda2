@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { ZodBoolean, ZodFirstPartyTypeKind, ZodObject, ZodString, z } from 'zod';
+import { ZodBoolean, ZodEnum, ZodFirstPartyTypeKind, ZodNumber, ZodObject, ZodString, z } from 'zod';
 import { fullyUnwrap, preParseString } from './zod-utils.js';
 
 describe('fullyUnwrap', () => {
@@ -7,7 +7,10 @@ describe('fullyUnwrap', () => {
     expect(fullyUnwrap(z.string().optional())).toBeInstanceOf(ZodString);
   });
   test('z.number().nullable()', () => {
-    expect(fullyUnwrap(z.string().nullable())).toBeInstanceOf(ZodString);
+    expect(fullyUnwrap(z.number().nullable())).toBeInstanceOf(ZodNumber);
+  });
+  test('z.enum().nullable()', () => {
+    expect(fullyUnwrap(z.enum(['one', 'two']).nullable())).toBeInstanceOf(ZodEnum);
   });
   test('z.object().nullish()', () => {
     expect(fullyUnwrap(z.object({ one: z.string() }).nullish())).toBeInstanceOf(ZodObject);
@@ -39,6 +42,11 @@ describe('preParseString', () => {
     expect(preParseString(ZodFirstPartyTypeKind.ZodString, 'myString')).toBe('myString');
     expect(preParseString(ZodFirstPartyTypeKind.ZodString, 'true')).toBe('true');
     expect(preParseString(ZodFirstPartyTypeKind.ZodString, '1')).toBe('1');
+  });
+  test('enum schema', () => {
+    expect(preParseString(ZodFirstPartyTypeKind.ZodEnum, 'MY_ENUM_VAL')).toBe('MY_ENUM_VAL');
+    expect(preParseString(ZodFirstPartyTypeKind.ZodEnum, 'true')).toBe('true');
+    expect(preParseString(ZodFirstPartyTypeKind.ZodEnum, '1')).toBe('1');
   });
   test('boolean schema', () => {
     assertJsonPreParse(ZodFirstPartyTypeKind.ZodBoolean);

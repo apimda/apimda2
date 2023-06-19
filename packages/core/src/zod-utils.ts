@@ -26,7 +26,7 @@ export function preParseString(
     zodTypeName === ZodFirstPartyTypeKind.ZodArray
   ) {
     return JSON.parse(data) as boolean | number | object;
-  } else if (zodTypeName === 'ZodString') {
+  } else if (zodTypeName === ZodFirstPartyTypeKind.ZodString || zodTypeName === ZodFirstPartyTypeKind.ZodEnum) {
     return data;
   }
   throw new Error(`Cannot pre-parse '${data}' with for type:\n${JSON.stringify(zodTypeName, undefined, 2)}`);

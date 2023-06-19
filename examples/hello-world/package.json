@@ -12,15 +12,15 @@
     "@apimda/client": "workspace:*",
     "@apimda/core": "workspace:*",
     "@apimda/server": "workspace:*",
-    "aws-cdk-lib": "^2.78.0",
-    "constructs": "^10.2.17",
+    "aws-cdk-lib": "^2.84.0",
+    "constructs": "^10.2.54",
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@aws-cdk/aws-apigatewayv2-alpha": "^2.78.0-alpha.0",
-    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.78.0-alpha.0",
-    "@types/aws-lambda": "^8.10.114",
-    "aws-cdk": "^2.78.0",
-    "esbuild": "^0.17.18"
+    "@aws-cdk/aws-apigatewayv2-alpha": "2.78.0-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "2.78.0-alpha.0",
+    "@types/aws-lambda": "^8.10.119",
+    "aws-cdk": "^2.84.0",
+    "esbuild": "^0.17.19"
   }
 }
