@@ -108,6 +108,7 @@ export function validate(controllerDef: ControllerDef) {
       if (
         unwrappedType !== ZodFirstPartyTypeKind.ZodNumber &&
         unwrappedType !== ZodFirstPartyTypeKind.ZodString &&
+        unwrappedType !== ZodFirstPartyTypeKind.ZodEnum &&
         unwrappedType !== ZodFirstPartyTypeKind.ZodBoolean
       ) {
         violations.push(
