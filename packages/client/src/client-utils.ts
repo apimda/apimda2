@@ -46,11 +46,13 @@ export function buildHeaders(headers: Record<string, string>, cookies: Record<st
 }
 
 export type HeadParamLocation = Exclude<ParamLocation, 'body' | 'body-text' | 'body-binary'>;
-export type StringifiedParamValue = number | boolean | string | object;
+export type StringifiedParamValue = number | boolean | string | bigint | object;
 
 export function paramStringValue(value: StringifiedParamValue) {
   if (typeof value === 'string') {
     return value;
+  } else if (typeof value === 'bigint') {
+    return value.toString();
   }
   return JSON.stringify(value);
 }

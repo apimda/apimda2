@@ -80,14 +80,16 @@ export const testControllerDef = a.controller('/base').define({
     .input({
       bln: a.in.path(z.boolean()),
       str: a.in.path(z.string()),
-      num: a.in.path(z.number())
+      num: a.in.path(z.number()),
+      bInt: a.in.query(z.bigint())
     })
     .output(
       a.out.schema(
         z.object({
           bln: z.boolean(),
           str: z.string(),
-          num: z.number()
+          num: z.number(),
+          bInt: z.coerce.bigint()
         })
       )
     )
@@ -99,6 +101,7 @@ export const testControllerDef = a.controller('/base').define({
       bln: a.in.query(z.boolean()),
       str: a.in.query(z.string()),
       num: a.in.query(z.number()),
+      bInt: a.in.query(z.bigint()),
       obj: a.in.query(z.object({ id: z.number() })),
       optional: a.in.query(z.string().optional())
     })
@@ -108,6 +111,7 @@ export const testControllerDef = a.controller('/base').define({
           bln: z.boolean(),
           str: z.string(),
           num: z.number(),
+          bInt: z.coerce.bigint(),
           obj: z.object({ id: z.number() }),
           optional: z.string().optional()
         })

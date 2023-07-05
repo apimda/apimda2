@@ -46,5 +46,5 @@
     "package.json": "prettier-package-json --write",
     "*.ts": "eslint"
   },
-  "packageManager": "pnpm@8.6.3"
+  "packageManager": "pnpm@8.6.6"
 }

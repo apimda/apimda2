@@ -16,7 +16,7 @@ export function extractTypeName(s: ZodSchema) {
 export function preParseString(
   zodTypeName: ZodFirstPartyTypeKind,
   data?: string
-): boolean | number | object | string | undefined {
+): boolean | number | object | string | bigint | undefined {
   if (!data) {
     return data;
   } else if (
@@ -26,6 +26,8 @@ export function preParseString(
     zodTypeName === ZodFirstPartyTypeKind.ZodArray
   ) {
     return JSON.parse(data) as boolean | number | object;
+  } else if (zodTypeName === ZodFirstPartyTypeKind.ZodBigInt) {
+    return BigInt(data);
   } else if (zodTypeName === ZodFirstPartyTypeKind.ZodString || zodTypeName === ZodFirstPartyTypeKind.ZodEnum) {
     return data;
   }

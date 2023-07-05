@@ -15,7 +15,7 @@ export type AnySerializedType = string | Binary;
 // Input
 // ------
 
-export type AnyParamType = undefined | boolean | number | object | string | Binary;
+export type AnyParamType = undefined | boolean | number | object | string | bigint | Binary;
 export type ParamLocation = 'body' | 'cookie' | 'header' | 'query' | 'path';
 
 export abstract class ParamDef<TParam extends AnyParamType, TSerialized extends AnySerializedType> {
