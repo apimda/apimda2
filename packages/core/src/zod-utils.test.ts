@@ -48,6 +48,20 @@ describe('preParseString', () => {
     expect(preParseString(ZodFirstPartyTypeKind.ZodEnum, 'true')).toBe('true');
     expect(preParseString(ZodFirstPartyTypeKind.ZodEnum, '1')).toBe('1');
   });
+  test('bigint schema', () => {
+    const biggerThanNumber = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
+    expect(preParseString(ZodFirstPartyTypeKind.ZodBigInt, biggerThanNumber.toString())).toBe(biggerThanNumber);
+    expect(preParseString(ZodFirstPartyTypeKind.ZodBigInt, '1')).toBe(1n);
+    expect(() => {
+      preParseString(ZodFirstPartyTypeKind.ZodBigInt, 'true');
+    }).toThrow();
+    expect(() => {
+      preParseString(ZodFirstPartyTypeKind.ZodBigInt, 'undefined');
+    }).toThrow();
+    expect(() => {
+      preParseString(ZodFirstPartyTypeKind.ZodBigInt, '1.02');
+    }).toThrow();
+  });
   test('boolean schema', () => {
     assertJsonPreParse(ZodFirstPartyTypeKind.ZodBoolean);
   });

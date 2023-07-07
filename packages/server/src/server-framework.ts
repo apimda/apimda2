@@ -121,10 +121,10 @@ export class ServerOperation {
   private resultToBody(result: AnyOutputType): undefined | string | Buffer {
     if (Buffer.isBuffer(result)) {
       return result;
-    } else if (typeof result === 'number' || typeof result === 'boolean') {
+    } else if (typeof result === 'number' || typeof result === 'boolean' || typeof result === 'bigint') {
       return result.toString();
     } else if (typeof result === 'object') {
-      return JSON.stringify(result);
+      return JSON.stringify(result, (_, v) => (typeof v === 'bigint' ? v.toString() : v));
     } else if (!result) {
       return undefined;
     }

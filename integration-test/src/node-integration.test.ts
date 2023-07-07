@@ -77,7 +77,8 @@ test('pathExample', async () => {
   const input = {
     bln: true,
     str: 'some text',
-    num: -120
+    num: -120,
+    bInt: BigInt(Number.MAX_SAFE_INTEGER) + 2n
   };
   expect(await client.pathExample(input)).toEqual(input);
 });
@@ -87,6 +88,7 @@ test('queryExample', async () => {
     bln: true,
     str: 'some text',
     num: -120,
+    bInt: BigInt(Number.MAX_SAFE_INTEGER) + 2n,
     obj: { id: 0 },
     optional: undefined
   };
