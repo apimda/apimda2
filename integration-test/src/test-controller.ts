@@ -22,9 +22,9 @@ export const testControllerDef = a.controller('/base').define({
   bodyObjectExample: a.op
     .post('/bodyObjectExample')
     .input({
-      body: a.in.body(z.object({ id: z.number() }))
+      body: a.in.body(z.object({ id: z.number(), bInt: z.coerce.bigint() }))
     })
-    .output(a.out.schema(z.object({ id: z.number() })))
+    .output(a.out.schema(z.object({ id: z.number(), bInt: z.coerce.bigint() })))
     .build(),
 
   bodyTextExample: a.op

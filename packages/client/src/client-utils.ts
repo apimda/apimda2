@@ -54,7 +54,7 @@ export function paramStringValue(value: StringifiedParamValue) {
   } else if (typeof value === 'bigint') {
     return value.toString();
   }
-  return JSON.stringify(value);
+  return JSON.stringify(value, (_, v) => (typeof v === 'bigint' ? v.toString() : v));
 }
 
 export function paramsByLocation(definition: AnyInputDef, input: Record<string, ParamValue>) {
