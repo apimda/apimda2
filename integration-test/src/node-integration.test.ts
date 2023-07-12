@@ -44,7 +44,7 @@ test('bodyBinaryExample', async () => {
 });
 
 test('bodyObjectExample', async () => {
-  const input = { body: { id: 100 } };
+  const input = { body: { id: 100, bInt: BigInt(Number.MAX_SAFE_INTEGER) + 2n } };
   expect(await client.bodyObjectExample(input)).toEqual(input.body);
 });
 
