@@ -117,7 +117,9 @@ export const testControllerDef = a.controller('/base').define({
         })
       )
     )
-    .build()
+    .build(),
+
+  voidExample: a.op.get('/voidExample').build()
 });
 
 export const testControllerImpl = a.implement(testControllerDef, {
@@ -128,7 +130,8 @@ export const testControllerImpl = a.implement(testControllerDef, {
   cookieExample: async input => input,
   headerExample: async input => input,
   pathExample: async input => input,
-  queryExample: async input => input
+  queryExample: async input => input,
+  voidExample: async () => undefined
 });
 
 export const objControllerDef = a.controller('/obj').define({

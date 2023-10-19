@@ -17,8 +17,8 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@aws-cdk/aws-apigatewayv2-alpha": "2.78.0-alpha.0",
-    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "2.78.0-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-alpha": "2.84.0-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "2.84.0-alpha.0",
     "@types/aws-lambda": "^8.10.119",
     "aws-cdk": "^2.84.0",
     "esbuild": "^0.17.19"

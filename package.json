@@ -46,5 +46,11 @@
     "package.json": "prettier-package-json --write",
     "*.ts": "eslint"
   },
-  "packageManager": "pnpm@8.6.6"
+  "packageManager": "pnpm@8.7.6",
+  "pnpm": {
+    "overrides": {
+      "@types/aws-lambda": "^8.10.119",
+      "zod": "^3.22.2"
+    }
+  }
 }

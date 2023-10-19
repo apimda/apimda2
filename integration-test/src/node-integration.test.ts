@@ -100,3 +100,7 @@ test('queryExample', async () => {
   };
   expect(await client.queryExample(notOptionalInput)).toEqual(notOptionalInput);
 });
+
+test('voidExample', async () => {
+  expect(await client.voidExample({})).toEqual(undefined);
+});
