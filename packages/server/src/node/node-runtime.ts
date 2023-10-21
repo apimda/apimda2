@@ -35,7 +35,9 @@ const sendResultResponse = (response: ServerResponse, result: ServerResult, defa
     outgoingHeaders['set-cookie'] = cookies;
   }
   response.writeHead(result.statusCode, outgoingHeaders);
-  response.write(result.body);
+  if (result.body) {
+    response.write(result.body);
+  }
   response.end();
 };
 
