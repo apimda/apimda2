@@ -11,7 +11,7 @@
     "lint": "prettier --plugin-search-dir . --check . && eslint \".\"",
     "playground": "pnpm --filter integration-test run playground",
     "prepare": "husky install",
-    "release": "pnpm -r --workspace-concurrency=1 exec -- semantic-release -e semantic-release-monorepo",
+    "release": "pnpm -r --workspace-concurrency=1 exec -- semantic-release -e semantic-release-monorepo -d",
     "repo-clean": "git clean -xdf",
     "test": "pnpm run build && vitest run"
   },
