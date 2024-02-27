@@ -89,8 +89,7 @@ test('queryExample', async () => {
     str: 'some text',
     num: -120,
     bInt: BigInt(Number.MAX_SAFE_INTEGER) + 2n,
-    obj: { id: 0 },
-    optional: undefined
+    obj: { id: 0 }
   };
   expect(await client.queryExample(input)).toEqual(input);
 

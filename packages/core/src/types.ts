@@ -62,9 +62,16 @@ export type InferParamType<TParamDef, TBinary> = TParamDef extends ParamDef<infe
 
 export type AnyInputDef = Record<string, AnyParamDef>;
 
-export type InferInputType<TInputDef, TBinary> = TInputDef extends AnyInputDef
+type NotUndefinedKeys<T> = {
+  [P in keyof T]: T[P] extends Exclude<T[P], undefined> ? P : never;
+}[keyof T];
+
+export type InferRawInputType<TInputDef, TBinary> = TInputDef extends AnyInputDef
   ? { [TKey in keyof TInputDef]: InferParamType<TInputDef[TKey], TBinary> }
   : never;
+
+export type InferInputType<TInputDef, TBinary> = Partial<InferRawInputType<TInputDef, TBinary>> &
+  Pick<InferRawInputType<TInputDef, TBinary>, NotUndefinedKeys<InferRawInputType<TInputDef, TBinary>>>;
 
 // -------
 // Output
