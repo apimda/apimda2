@@ -10,5 +10,10 @@
   ],
   "dependencies": {
     "@apimda/core": "workspace:*"
+  },
+  "release": {
+    "branches": [
+      "release"
+    ]
   }
 }
