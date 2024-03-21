@@ -13,5 +13,10 @@
   },
   "dependencies": {
     "zod": "^3.21.4"
+  },
+  "release": {
+    "branches": [
+      "release"
+    ]
   }
 }

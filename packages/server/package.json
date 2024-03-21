@@ -17,5 +17,10 @@
     "@types/aws-lambda": "^8.10.119",
     "@types/supertest": "^2.0.12",
     "supertest": "^6.3.3"
+  },
+  "release": {
+    "branches": [
+      "release"
+    ]
   }
 }
