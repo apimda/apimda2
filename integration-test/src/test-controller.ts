@@ -8,32 +8,28 @@ export const testControllerDef = a.controller('/base').define({
     .input({
       body: a.in.body(z.array(z.number()))
     })
-    .output(a.out.schema(z.array(z.number())))
-    .build(),
+    .output(a.out.schema(z.array(z.number()))),
 
   bodyBinaryExample: a.op
     .post('/bodyBinaryExample')
     .input({
       body: a.in.bodyBinary()
     })
-    .output(a.out.binary())
-    .build(),
+    .output(a.out.binary()),
 
   bodyObjectExample: a.op
     .post('/bodyObjectExample')
     .input({
       body: a.in.body(z.object({ id: z.number(), bInt: z.coerce.bigint() }))
     })
-    .output(a.out.schema(z.object({ id: z.number(), bInt: z.coerce.bigint() })))
-    .build(),
+    .output(a.out.schema(z.object({ id: z.number(), bInt: z.coerce.bigint() }))),
 
   bodyTextExample: a.op
     .post('/bodyTextExample')
     .input({
       body: a.in.bodyText()
     })
-    .output(a.out.text())
-    .build(),
+    .output(a.out.text()),
 
   cookieExample: a.op
     .get('/cookieExample')
@@ -52,8 +48,7 @@ export const testControllerDef = a.controller('/base').define({
           obj: z.object({ id: z.number() })
         })
       )
-    )
-    .build(),
+    ),
 
   headerExample: a.op
     .get('/headerExample')
@@ -72,8 +67,7 @@ export const testControllerDef = a.controller('/base').define({
           obj: z.object({ id: z.number() })
         })
       )
-    )
-    .build(),
+    ),
 
   pathExample: a.op
     .get('/pathExample/{bln}/{str}/{num}')
@@ -92,8 +86,7 @@ export const testControllerDef = a.controller('/base').define({
           bInt: z.coerce.bigint()
         })
       )
-    )
-    .build(),
+    ),
 
   queryExample: a.op
     .get('/queryExample')
@@ -116,10 +109,9 @@ export const testControllerDef = a.controller('/base').define({
           optional: z.string().optional()
         })
       )
-    )
-    .build(),
+    ),
 
-  voidExample: a.op.get('/voidExample').build()
+  voidExample: a.op.get('/voidExample')
 });
 
 export const testControllerImpl = a.implement(testControllerDef, {
@@ -135,7 +127,7 @@ export const testControllerImpl = a.implement(testControllerDef, {
 });
 
 export const objControllerDef = a.controller('/obj').define({
-  testBind: a.op.post('/context').output(a.out.text()).build()
+  testBind: a.op.post('/context').output(a.out.text())
 });
 
 class ObjController implements InferControllerImplType<typeof objControllerDef> {
@@ -144,7 +136,6 @@ class ObjController implements InferControllerImplType<typeof objControllerDef> 
     return this.prop;
   }
   async testBind(input = {}): Promise<string> {
-    console.log(this);
     return this.privMethod();
   }
 }

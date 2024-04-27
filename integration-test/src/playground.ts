@@ -2,7 +2,7 @@
 import { createFetchClient } from '@apimda/client';
 import { a } from '@apimda/core';
 import { createRequestListener } from '@apimda/server';
-import { createServer } from 'http';
+import { createServer } from 'node:http';
 import { z } from 'zod';
 
 const definition = a.controller('/path').define({
@@ -12,27 +12,19 @@ const definition = a.controller('/path').define({
       name: a.in.query(z.string()),
       age: a.in.query(z.number())
     })
-    .output(a.out.text())
-    .build(),
+    .output(a.out.text()),
+  hello: a.op.get('/hello').output(a.out.text('text/plain')),
 
-  hello: a.op.get('/hello').output(a.out.text('text/plain')).build(),
+  log: a.op.get('/log'),
 
-  log: a.op.get('/log').build(),
-
-  outputSchema: a.op
-    .get('/outputSchema')
-    .output(a.out.schema(z.string().min(1), 'text/vcard'))
-    .build(),
-
+  outputSchema: a.op.get('/outputSchema').output(a.out.schema(z.string().min(1), 'text/vcard')),
   echoObject: a.op
     .post('/echoObject')
     .input({ data: a.in.body(z.object({})) })
-    .output(a.out.object())
-    .build(),
+    .output(a.out.object()),
+  echoText: a.op.post('/echoText').input({ data: a.in.bodyText() }).output(a.out.text()),
 
-  echoText: a.op.post('/echoText').input({ data: a.in.bodyText() }).output(a.out.text()).build(),
-
-  echoBinary: a.op.post('/echoBinary').input({ data: a.in.bodyBinary() }).output(a.out.binary()).build(),
+  echoBinary: a.op.post('/echoBinary').input({ data: a.in.bodyBinary() }).output(a.out.binary()),
 
   add: a.op
     .get('/add/{first}')
@@ -41,7 +33,6 @@ const definition = a.controller('/path').define({
       second: a.in.query(z.number())
     })
     .output(a.out.number())
-    .build() //async ({ first, second }) => first + second
 });
 
 const implementation = a.implement(

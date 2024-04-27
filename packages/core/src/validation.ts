@@ -11,7 +11,10 @@ export enum ViolationCode {
 }
 
 export class Violation {
-  constructor(public message: string, public code: ViolationCode) {}
+  constructor(
+    public message: string,
+    public code: ViolationCode
+  ) {}
 }
 
 export class ValidationError extends Error {
@@ -32,6 +35,7 @@ export class ValidationResult {
       const messages = this.violations.map(v => v.message);
       return messages.join('\n');
     }
+    return undefined;
   }
 }
 

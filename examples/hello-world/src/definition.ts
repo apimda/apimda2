@@ -8,5 +8,4 @@ export const helloController = a.controller().define({
       message: a.in.query(z.string().min(3).optional())
     })
     .output(a.out.text())
-    .build()
 });

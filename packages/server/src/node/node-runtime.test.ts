@@ -1,5 +1,5 @@
 import { a } from '@apimda/core';
-import { createServer } from 'http';
+import { createServer } from 'node:http';
 import request from 'supertest';
 import { describe, expect, test } from 'vitest';
 import { createRequestListener } from './node-runtime.js';
@@ -7,7 +7,7 @@ import { createRequestListener } from './node-runtime.js';
 const greeting = { greeting: 'Hi!' };
 
 const def = a.controller('/greeter').define({
-  hello: a.op.get('/hello').output(a.out.object()).build()
+  hello: a.op.get('/hello').output(a.out.object())
 });
 
 const impl = a.implement(def, { hello: async () => greeting });

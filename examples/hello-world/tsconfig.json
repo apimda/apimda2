@@ -3,7 +3,7 @@
     "declaration": true,
     "declarationMap": true,
     "lib": ["ES2022"],
-    "module": "ES2022",
+    "module": "NodeNext",
     "moduleResolution": "nodenext",
     "target": "ES2022",
     "strict": true,

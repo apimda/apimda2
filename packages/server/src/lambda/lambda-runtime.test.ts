@@ -63,13 +63,13 @@ describe('toLambdaResult tests', () => {
 const greeting = { hello: 'Hi!' };
 
 const def1 = a.controller('/greeter').define({
-  hello: a.op.get('/hello').output(a.out.object()).build()
+  hello: a.op.get('/hello').output(a.out.object())
 });
 
 const impl1 = a.implement(def1, { hello: async () => greeting });
 
 const def2 = a.controller('/boo').define({
-  yeah: a.op.get('/yo').output(a.out.text()).build()
+  yeah: a.op.get('/yo').output(a.out.text())
 });
 
 const impl2 = a.implement(def2, { yeah: async () => 'hell yeah' });

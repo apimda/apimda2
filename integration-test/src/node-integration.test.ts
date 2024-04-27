@@ -1,8 +1,8 @@
 import { createFetchClient } from '@apimda/client';
 import { InferControllerClientType } from '@apimda/core';
 import { createRequestListener } from '@apimda/server';
-import { Server, createServer } from 'http';
-import { AddressInfo } from 'net';
+import { Server, createServer } from 'node:http';
+import { AddressInfo } from 'node:net';
 import { afterAll, beforeAll, beforeEach, expect, test } from 'vitest';
 import { objControllerDef, objControllerImpl, testControllerDef, testControllerImpl } from './test-controller.js';
 

@@ -25,7 +25,10 @@ export interface RequestExtractor {
 
 class ServerParam {
   private name: string;
-  constructor(public def: AnyParamDef, public propertyName: string) {
+  constructor(
+    public def: AnyParamDef,
+    public propertyName: string
+  ) {
     this.name = this.def.name ?? this.propertyName;
   }
   value(extractor: RequestExtractor) {
