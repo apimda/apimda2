@@ -7,8 +7,8 @@ describe('validation', () => {
   test('DUPLICATE_METHOD_PATH', () => {
     try {
       a.controller().define({
-        one: a.op.get('/path').build(),
-        two: a.op.get('/path').build()
+        one: a.op.get('/path'),
+        two: a.op.get('/path')
       });
       throw new Error('Expected ValidationError');
     } catch (e) {
@@ -21,9 +21,9 @@ describe('validation', () => {
   test('INVALID_PATH', () => {
     try {
       a.controller('').define({
-        one: a.op.get('').build(),
-        two: a.op.get('path').build(),
-        three: a.op.get('/path/').build()
+        one: a.op.get(''),
+        two: a.op.get('path'),
+        three: a.op.get('/path/')
       });
       throw new Error('Expected ValidationError');
     } catch (e) {
@@ -38,7 +38,7 @@ describe('validation', () => {
   test('MISSING_PATH_VAR', () => {
     try {
       a.controller().define({
-        one: a.op.get('/path/{missing}').build()
+        one: a.op.get('/path/{missing}')
       });
       throw new Error('Expected ValidationError');
     } catch (e) {
@@ -51,10 +51,7 @@ describe('validation', () => {
   test('INVALID_PATH_VAR', () => {
     try {
       a.controller().define({
-        one: a.op
-          .get('/path/{var}')
-          .input({ var: a.in.path(z.object({})) })
-          .build()
+        one: a.op.get('/path/{var}').input({ var: a.in.path(z.object({})) })
       });
       throw new Error('Expected ValidationError');
     } catch (e) {
@@ -67,7 +64,7 @@ describe('validation', () => {
   test('MULTIPLE_BODY_VARS', () => {
     try {
       a.controller().define({
-        one: a.op.get('/path').input({ first: a.in.bodyText(), second: a.in.bodyBinary() }).build()
+        one: a.op.get('/path').input({ first: a.in.bodyText(), second: a.in.bodyBinary() })
       });
       throw new Error('Expected ValidationError');
     } catch (e) {

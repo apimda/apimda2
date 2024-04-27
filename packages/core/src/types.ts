@@ -19,13 +19,20 @@ export type AnyParamType = undefined | boolean | number | object | string | bigi
 export type ParamLocation = 'body' | 'cookie' | 'header' | 'query' | 'path';
 
 export abstract class ParamDef<TParam extends AnyParamType, TSerialized extends AnySerializedType> {
-  constructor(public location: ParamLocation, public name?: string) {}
+  constructor(
+    public location: ParamLocation,
+    public name?: string
+  ) {}
   abstract deserialize(serializedValue?: TSerialized): TParam;
 }
 
 export class ZodParamDef<TSchema extends ZodSchema> extends ParamDef<z.infer<TSchema>, string> {
   public serializer: ZodSerializer<TSchema>;
-  constructor(location: ParamLocation, public schema: TSchema, name?: string) {
+  constructor(
+    location: ParamLocation,
+    public schema: TSchema,
+    name?: string
+  ) {
     super(location, name);
     this.serializer = new ZodSerializer(schema);
   }
@@ -54,11 +61,8 @@ export class BodyTextParamDef extends ParamDef<string, string> {
 
 export type AnyParamDef = ParamDef<AnyParamType, AnySerializedType>;
 
-export type InferParamType<TParamDef, TBinary> = TParamDef extends ParamDef<infer TValue, infer TSerialized>
-  ? TValue extends Binary
-    ? TBinary
-    : TValue
-  : never;
+export type InferParamType<TParamDef, TBinary> =
+  TParamDef extends ParamDef<infer TValue, infer TSerialized> ? (TValue extends Binary ? TBinary : TValue) : never;
 
 export type AnyInputDef = Record<string, AnyParamDef>;
 
@@ -113,7 +117,10 @@ export class BinaryOutputDef extends OutputDef<Binary, Binary> {
 
 export class ZodOutputDef<TSchema extends ZodSchema> extends OutputDef<z.infer<TSchema>, string> {
   public serializer: ZodSerializer<TSchema>;
-  constructor(public schema: TSchema, mimeType = 'application/json') {
+  constructor(
+    public schema: TSchema,
+    mimeType = 'application/json'
+  ) {
     super(mimeType);
     this.serializer = new ZodSerializer(schema);
   }
@@ -124,11 +131,8 @@ export class ZodOutputDef<TSchema extends ZodSchema> extends OutputDef<z.infer<T
 
 export type AnyOutputDef = OutputDef<AnyOutputType, AnySerializedType> | undefined;
 
-export type InferOutputType<TOutputDef, TBinary> = TOutputDef extends OutputDef<infer TOutput, infer TSerialized>
-  ? TOutput extends Binary
-    ? TBinary
-    : TOutput
-  : void;
+export type InferOutputType<TOutputDef, TBinary> =
+  TOutputDef extends OutputDef<infer TOutput, infer TSerialized> ? (TOutput extends Binary ? TBinary : TOutput) : void;
 
 // ----------
 // Operation
@@ -145,12 +149,10 @@ export interface OperationDef<TInputDef, TOutputDef> {
 
 export type AnyOperationDef = OperationDef<AnyInputDef, AnyOutputDef>;
 
-export type InferOperationFunctionType<TOperationDef, TBinary> = TOperationDef extends OperationDef<
-  infer TInputDef,
-  infer TOutputDef
->
-  ? (input: InferInputType<TInputDef, TBinary>) => Promise<InferOutputType<TOutputDef, TBinary>>
-  : never;
+export type InferOperationFunctionType<TOperationDef, TBinary> =
+  TOperationDef extends OperationDef<infer TInputDef, infer TOutputDef>
+    ? (input: InferInputType<TInputDef, TBinary>) => Promise<InferOutputType<TOutputDef, TBinary>>
+    : never;
 
 // -----------
 // Controller

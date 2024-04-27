@@ -84,8 +84,11 @@ class OperationDefBuilder<TInputDef, TOutputDef> {
     return new OperationDefBuilder<TInputDef, TNewOutputDef>({ ...this.def, outputDef });
   }
 
+  /**
+   * @deprecated Obsolete; only here for backwards compatibility.
+   */
   build() {
-    return this.def;
+    return this;
   }
 }
 
@@ -107,13 +110,29 @@ const operationDefFactory = {
   }
 };
 
+type AnyOperationDefBuilder = OperationDefBuilder<AnyInputDef, AnyOutputDef>;
+
+type InferOperationDefFromBuilder<TOperationDefBuilder> =
+  TOperationDefBuilder extends OperationDefBuilder<infer TInputDef, infer TOutputDef>
+    ? OperationDef<TInputDef, TOutputDef>
+    : never;
+
+export type ControllerDefBuilder = Record<string, AnyOperationDefBuilder>;
+
+type InferControllerDefFromBuilder<TControllerDefBuilder> = TControllerDefBuilder extends ControllerDefBuilder
+  ? { [K in keyof TControllerDefBuilder]: InferOperationDefFromBuilder<TControllerDefBuilder[K]> }
+  : never;
+
 function controller(basePath = '/') {
   return {
-    define<TDef extends ControllerDef>(definition: TDef) {
-      for (const opName in definition) {
-        const def = definition[opName];
-        const localPath = basePath.endsWith('/') && def.path.startsWith('/') ? def.path.substring(1) : def.path;
-        def.path = `${basePath}${localPath}`;
+    define<TDef extends ControllerDefBuilder>(builder: TDef): InferControllerDefFromBuilder<TDef> {
+      const definition = {} as InferControllerDefFromBuilder<TDef>;
+      for (const opName in builder) {
+        const opBuilder = builder[opName];
+        const opDef = opBuilder.def;
+        const localPath = basePath.endsWith('/') && opDef.path.startsWith('/') ? opDef.path.substring(1) : opDef.path;
+        opDef.path = `${basePath}${localPath}`;
+        definition[opName] = opDef as InferOperationDefFromBuilder<typeof opDef>;
       }
       const validationResult = validate(definition);
       if (!validationResult.isValid) {

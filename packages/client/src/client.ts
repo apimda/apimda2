@@ -15,7 +15,10 @@ export interface ClientRequest {
 export type ClientRequestInterceptor = (request: ClientRequest) => Promise<ClientRequest>;
 
 export class ClientHttpError extends Error {
-  constructor(public status: number, public message: string) {
+  constructor(
+    public status: number,
+    public message: string
+  ) {
     super(message);
   }
 }
