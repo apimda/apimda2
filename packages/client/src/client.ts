@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AnyOperationDef, BinaryOutputDef, ControllerDef, InferControllerClientType } from '@apimda/core';
-import { buildHeaders, buildUrl, paramsByLocation } from './client-utils.js';
+import { buildHeaders, buildUrl, getHttpMethod, paramsByLocation } from './client-utils.js';
 
 // eslint-disable-next-line no-var
 declare var fetch: typeof import('undici').fetch;
@@ -32,7 +32,7 @@ export class ClientFetchOperation {
   private buildRequest(input: Record<string, any>) {
     const { params, body } = paramsByLocation(this.operationDef.inputDef, input);
     const request: ClientRequest = {
-      method: this.operationDef.method,
+      method: getHttpMethod(this.operationDef),
       url: new URL(buildUrl(this.endpoint, this.operationDef.path, params.path, params.query)),
       headers: buildHeaders(params.header, params.cookie),
       body

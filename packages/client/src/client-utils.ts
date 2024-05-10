@@ -1,4 +1,4 @@
-import { AnyInputDef, BodyBinaryParamDef, ParamLocation } from '@apimda/core';
+import { AnyInputDef, AnyOperationDef, BodyBinaryParamDef, ParamLocation } from '@apimda/core';
 
 export type ParamValue = number | boolean | string | object | Blob;
 
@@ -80,4 +80,8 @@ export function paramsByLocation(definition: AnyInputDef, input: Record<string, 
     }
   }
   return { params, body };
+}
+
+export function getHttpMethod(def: AnyOperationDef) {
+  return def.method.toUpperCase();
 }
