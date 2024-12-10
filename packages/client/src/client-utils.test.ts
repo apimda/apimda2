@@ -1,5 +1,13 @@
 import { describe, expect, test } from 'vitest';
-import { buildHeaders, buildPath, buildQuery, buildUrl, encodeCookies, paramStringValue } from './client-utils.js';
+import {
+  buildHeaders,
+  buildPath,
+  buildQuery,
+  buildUrl,
+  encodeCookies,
+  getHttpMethod,
+  paramStringValue
+} from './client-utils.js';
 
 describe('buildPath', () => {
   test('no template vars', () => {
@@ -54,6 +62,23 @@ describe('paramStringValue', () => {
   });
 });
 
+describe('getHttpMethod', () => {
+  test('delete', () => {
+    expect(getHttpMethod({ method: 'delete', path: '/', inputDef: {} })).toBe('DELETE');
+  });
+  test('get', () => {
+    expect(getHttpMethod({ method: 'get', path: '/', inputDef: {} })).toBe('GET');
+  });
+  test('patch', () => {
+    expect(getHttpMethod({ method: 'patch', path: '/', inputDef: {} })).toBe('PATCH');
+  });
+  test('post', () => {
+    expect(getHttpMethod({ method: 'post', path: '/', inputDef: {} })).toBe('POST');
+  });
+  test('put', () => {
+    expect(getHttpMethod({ method: 'put', path: '/', inputDef: {} })).toBe('PUT');
+  });
+});
 // describe('paramsByNameForLocation', () => {
 //   test('empty input', () => {
 //     const inputDef: Record<string, BaseParam> = {};
