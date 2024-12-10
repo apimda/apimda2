@@ -116,20 +116,29 @@ describe('encodeCookies', () => {
 
 describe('buildHeaders', () => {
   test('no input', () => {
-    expect(buildHeaders({}, {})).toStrictEqual({});
+    expect(buildHeaders({}, {}, undefined)).toStrictEqual({});
   });
   test('header', () => {
     const headers = { h: 'headerVal' };
-    expect(buildHeaders(headers, {})).toStrictEqual({ h: 'headerVal' });
+    expect(buildHeaders(headers, {}, undefined)).toStrictEqual({ h: 'headerVal' });
   });
   test('cookie', () => {
     const cookies = { c: 'cookieVal' };
-    expect(buildHeaders({}, cookies)).toStrictEqual({ Cookie: 'c=cookieVal' });
+    expect(buildHeaders({}, cookies, undefined)).toStrictEqual({ Cookie: 'c=cookieVal' });
   });
   test('header and cookie', () => {
     const headers = { h: 'headerVal' };
     const cookies = { c: 'cookieVal' };
-    expect(buildHeaders(headers, cookies)).toStrictEqual({ h: 'headerVal', Cookie: 'c=cookieVal' });
+    expect(buildHeaders(headers, cookies, undefined)).toStrictEqual({ h: 'headerVal', Cookie: 'c=cookieVal' });
+  });
+  test('header and cookie and body', () => {
+    const headers = { h: 'headerVal' };
+    const cookies = { c: 'cookieVal' };
+    expect(buildHeaders(headers, cookies, 'text/plain')).toStrictEqual({
+      h: 'headerVal',
+      Cookie: 'c=cookieVal',
+      'Content-Type': 'text/plain'
+    });
   });
 });
 

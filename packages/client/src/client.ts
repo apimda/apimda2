@@ -30,11 +30,11 @@ export class ClientFetchOperation {
     private interceptor?: ClientRequestInterceptor
   ) {}
   private buildRequest(input: Record<string, any>) {
-    const { params, body } = paramsByLocation(this.operationDef.inputDef, input);
+    const { params, body, bodyType } = paramsByLocation(this.operationDef.inputDef, input);
     const request: ClientRequest = {
       method: this.operationDef.method,
       url: new URL(buildUrl(this.endpoint, this.operationDef.path, params.path, params.query)),
-      headers: buildHeaders(params.header, params.cookie),
+      headers: buildHeaders(params.header, params.cookie, bodyType),
       body
     };
     return request;

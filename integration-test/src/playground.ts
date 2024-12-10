@@ -32,6 +32,14 @@ const definition = a.controller('/path').define({
       first: a.in.path(z.number()),
       second: a.in.query(z.number())
     })
+    .output(a.out.number()),
+
+  patch: a.op
+    .patch('/patch/{id}')
+    .input({
+      id: a.in.path(z.number().int().positive()),
+      data: a.in.body(z.object({ rating: z.number().int().min(1).max(5).nullable() }))
+    })
     .output(a.out.number())
 });
 
@@ -57,7 +65,9 @@ const implementation = a.implement(
 
       echoBinary: async ({ data }) => data,
 
-      add: async ({ first, second }) => first + second
+      add: async ({ first, second }) => first + second,
+
+      patch: async ({ id, data }) => data.rating ?? 0
     };
   })()
 );
@@ -87,5 +97,8 @@ console.log(objResponse);
 const blob = new Blob(['hello from blob-land']);
 const binaryResponse = await client.echoBinary({ data: blob });
 console.log(await binaryResponse.text());
+
+const patchRes = await client.patch({ id: 1, data: { rating: 2 } });
+console.log(patchRes);
 
 server.close();

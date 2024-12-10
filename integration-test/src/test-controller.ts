@@ -111,7 +111,15 @@ export const testControllerDef = a.controller('/base').define({
       )
     ),
 
-  voidExample: a.op.get('/voidExample')
+  voidExample: a.op.get('/voidExample'),
+
+  patchExample: a.op
+    .post('/patch/{id}')
+    .input({
+      id: a.in.path(z.number().int().positive()),
+      data: a.in.body(z.object({ rating: z.number().int().min(1).max(5).nullable() }))
+    })
+    .output(a.out.number())
 });
 
 export const testControllerImpl = a.implement(testControllerDef, {
@@ -123,7 +131,8 @@ export const testControllerImpl = a.implement(testControllerDef, {
   headerExample: async input => input,
   pathExample: async input => input,
   queryExample: async input => input,
-  voidExample: async () => undefined
+  voidExample: async () => undefined,
+  patchExample: async ({ id, data }) => data.rating ?? 0
 });
 
 export const objControllerDef = a.controller('/obj').define({

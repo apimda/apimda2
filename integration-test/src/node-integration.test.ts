@@ -103,3 +103,9 @@ test('queryExample', async () => {
 test('voidExample', async () => {
   expect(await client.voidExample({})).toEqual(undefined);
 });
+
+test('patchExample', async () => {
+  expect(await client.patchExample({ id: 1, data: { rating: null } })).toEqual(0);
+  expect(await client.patchExample({ id: 1, data: { rating: 1 } })).toEqual(1);
+  expect(await client.patchExample({ id: 1, data: { rating: 2 } })).toEqual(2);
+});
