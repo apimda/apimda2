@@ -1,6 +1,6 @@
 import { AnyInputDef, AnyOperationDef, BodyBinaryParamDef, BodyTextParamDef, ParamLocation } from '@apimda/core';
 
-export type ParamValue = number | boolean | string | object | Blob;
+export type ParamValue = number | boolean | string | object | Blob | null | undefined;
 
 export function buildPath(pathTemplate: string, pathVars: Record<string, string>) {
   return pathTemplate.replace(/\{(\w+)\}/gi, (match, pathVarName) => {
@@ -73,7 +73,7 @@ export function paramsByLocation(definition: AnyInputDef, input: Record<string, 
   let bodyType: BodyType = undefined;
   for (const propertyName in definition) {
     const rawValue = input[propertyName];
-    if (rawValue === undefined) {
+    if (rawValue === undefined || rawValue === null) {
       continue;
     }
     const param = definition[propertyName];

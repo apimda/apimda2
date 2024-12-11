@@ -1,4 +1,6 @@
+import { AnyInputDef, a } from '@apimda/core';
 import { describe, expect, test } from 'vitest';
+import { z } from 'zod';
 import {
   buildHeaders,
   buildPath,
@@ -6,7 +8,8 @@ import {
   buildUrl,
   encodeCookies,
   getHttpMethod,
-  paramStringValue
+  paramStringValue,
+  paramsByLocation
 } from './client-utils.js';
 
 describe('buildPath', () => {
@@ -79,41 +82,65 @@ describe('getHttpMethod', () => {
     expect(getHttpMethod({ method: 'put', path: '/', inputDef: {} })).toBe('PUT');
   });
 });
-// describe('paramsByNameForLocation', () => {
-//   test('empty input', () => {
-//     const inputDef: Record<string, BaseParam> = {};
-//     const input = {};
-//     expect(paramsByNameForLocation(inputDef, input, 'query')).toStrictEqual({});
-//   });
-//   test('simple', () => {
-//     const inputDef: Record<string, BaseParam> = { propName: { location: 'query' } };
-//     const input = { propName: 'value' };
-//     expect(paramsByNameForLocation(inputDef, input, 'query')).toStrictEqual(input);
-//   });
-//   test('extracts string value', () => {
-//     const inputDef: Record<string, BaseParam> = { propName: { location: 'query' } };
-//     const input = { propName: 6 };
-//     expect(paramsByNameForLocation(inputDef, input, 'query')).toStrictEqual({ propName: '6' });
-//   });
-//   test('filter by location', () => {
-//     const inputDef: Record<string, BaseParam> = { p1: { location: 'query' }, p2: { location: 'path' } };
-//     const input = { p1: 'v1', p2: 'v2' };
-//     expect(paramsByNameForLocation(inputDef, input, 'path')).toStrictEqual({ p2: 'v2' });
-//   });
-//   test('filter out undefined values', () => {
-//     const inputDef: Record<string, BaseParam> = { p1: { location: 'header' }, p2: { location: 'header' } };
-//     const input = { p1: undefined, p2: 'v2' };
-//     expect(paramsByNameForLocation(inputDef, input, 'header')).toStrictEqual({ p2: 'v2' });
-//   });
-//   test('use param name as key if available; fallback to property name', () => {
-//     const inputDef: Record<string, BaseParam> = {
-//       p1: { location: 'query' },
-//       p2: { location: 'query', name: 'newP2' }
-//     };
-//     const input = { p1: 'v1', p2: 'v2' };
-//     expect(paramsByNameForLocation(inputDef, input, 'query')).toStrictEqual({ p1: 'v1', newP2: 'v2' });
-//   });
-// });
+
+describe('paramsByLocation', () => {
+  test('empty input', () => {
+    const inputDef: AnyInputDef = {};
+    const input = {};
+    const result = paramsByLocation(inputDef, input);
+    expect(result.params.cookie).toStrictEqual({});
+    expect(result.params.header).toStrictEqual({});
+    expect(result.params.path).toStrictEqual({});
+    expect(result.params.query).toStrictEqual({});
+    expect(result.body).toBeUndefined();
+    expect(result.bodyType).toBeUndefined();
+  });
+  test('simple', () => {
+    const inputDef: AnyInputDef = { paramName: a.in.query(z.string(), 'paramName') };
+    const input = { paramName: 'value' };
+    const result = paramsByLocation(inputDef, input);
+    expect(result.params.query).toStrictEqual(input);
+  });
+  test('extracts string value', () => {
+    const inputDef: AnyInputDef = { paramName: a.in.path(z.number(), 'paramName') };
+    const input = { paramName: 6 };
+    const result = paramsByLocation(inputDef, input);
+    expect(result.params.path).toStrictEqual({ paramName: '6' });
+  });
+  test('filter out undefined values', () => {
+    const inputDef: AnyInputDef = { p1: a.in.header(z.string().optional(), 'p1'), p2: a.in.header(z.string(), 'p2') };
+    const input = { p1: undefined, p2: 'v2' };
+    const result = paramsByLocation(inputDef, input);
+    expect(result.params.header).toStrictEqual({ p2: 'v2' });
+  });
+  test('use param name as key if available; fallback to property name', () => {
+    const inputDef: AnyInputDef = { p1: a.in.query(z.string(), 'p1'), p2: a.in.query(z.string(), 'newP2') };
+    const input = { p1: 'v1', p2: 'v2' };
+    const result = paramsByLocation(inputDef, input);
+    expect(result.params.query).toStrictEqual({ p1: 'v1', newP2: 'v2' });
+  });
+  test('body text', () => {
+    const inputDef: AnyInputDef = { data: a.in.bodyText() };
+    const input = { data: 'value' };
+    const result = paramsByLocation(inputDef, input);
+    expect(result.body).toStrictEqual(input.data);
+    expect(result.bodyType).toStrictEqual('text/plain');
+  });
+  test('body binary', () => {
+    const inputDef: AnyInputDef = { data: a.in.bodyBinary() };
+    const input = { data: new Blob(['value'], { type: 'plain/text' }) };
+    const result = paramsByLocation(inputDef, input);
+    expect(result.body).toStrictEqual(input.data);
+    expect(result.bodyType).toStrictEqual('application/octet-stream');
+  });
+  test('body json', () => {
+    const inputDef: AnyInputDef = { data: a.in.body(z.object({ msg: z.string() })) };
+    const input = { data: { msg: 'value' } };
+    const result = paramsByLocation(inputDef, input);
+    expect(JSON.parse(result.body as string)).toStrictEqual(input.data);
+    expect(result.bodyType).toStrictEqual('application/json');
+  });
+});
 
 describe('buildUrl', () => {
   test('empty input', () => {
