@@ -11,6 +11,10 @@ import { ZodSerializer } from './zod-utils.js';
 export type Binary = Buffer | Blob;
 export type AnySerializedType = string | Binary;
 
+type Simplify<T> = {
+  [TKey in keyof T]: T[TKey];
+} & {};
+
 // ------
 // Input
 // ------
@@ -74,8 +78,10 @@ export type InferRawInputType<TInputDef, TBinary> = TInputDef extends AnyInputDe
   ? { [TKey in keyof TInputDef]: InferParamType<TInputDef[TKey], TBinary> }
   : never;
 
-export type InferInputType<TInputDef, TBinary> = Partial<InferRawInputType<TInputDef, TBinary>> &
-  Pick<InferRawInputType<TInputDef, TBinary>, NotUndefinedKeys<InferRawInputType<TInputDef, TBinary>>>;
+export type InferInputType<TInputDef, TBinary> = Simplify<
+  Partial<InferRawInputType<TInputDef, TBinary>> &
+    Pick<InferRawInputType<TInputDef, TBinary>, NotUndefinedKeys<InferRawInputType<TInputDef, TBinary>>>
+>;
 
 // -------
 // Output
